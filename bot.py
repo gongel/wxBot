@@ -1,5 +1,4 @@
 # coding: utf-8
-
 from wxbot import *
 import ConfigParser
 import json
@@ -130,7 +129,7 @@ class TulingWXBot(WXBot):
 def main():
     bot = TulingWXBot()
     bot.DEBUG = True
-    bot.conf['qr'] = 'tty'
+    bot.conf['qr'] = 'png'
     bot.run()
 
 

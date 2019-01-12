@@ -1,4 +1,4 @@
-# 基于下方进行部分修改
+# 基于下方进行部分修改,增加发送验证码到邮箱
 # wxBot [![star this repo](http://github-svg-buttons.herokuapp.com/star.svg?user=liuwons&repo=wxBot&style=flat&background=1081C1)](http://github.com/liuwons/wxBot) [![fork this repo](http://github-svg-buttons.herokuapp.com/fork.svg?user=liuwons&repo=wxBot&style=flat&background=1081C1)](http://github.com/liuwons/wxBot/fork) ![python](https://img.shields.io/badge/python-2.7-ff69b4.svg)
 
 **wxBot** 是用Python包装Web微信协议实现的微信机器人框架。
