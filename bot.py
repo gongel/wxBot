@@ -107,7 +107,7 @@ class TulingWXBot(WXBot):
                                                 "%Y-%m-%d %H:%M:%S")
         now_time = datetime.datetime.strptime(datetime.datetime.strftime(now_time, "%Y-%m-%d %H:%M:%S"),
                                               "%Y-%m-%d %H:%M:%S")
-        print now_time, next_morning, next_night
+        # print now_time, next_morning, next_night
         if 3> (next_morning - now_time).total_seconds() > 0:
             self.send_msg(u'胡老板', u'早安~')
 
