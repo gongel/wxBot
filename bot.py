@@ -1,9 +1,9 @@
-#!/usr/bin/env python
 # coding: utf-8
 
 from wxbot import *
 import ConfigParser
 import json
+import datetime,time
 
 
 class TulingWXBot(WXBot):
@@ -36,8 +36,8 @@ class TulingWXBot(WXBot):
                 result = respond['url']
             elif respond['code'] == 302000:
                 for k in respond['list']:
-                    result = result + u"【" + k['source'] + u"】 " +\
-                        k['article'] + "\t" + k['detailurl'] + "\n"
+                    result = result + u"【" + k['source'] + u"】 " + \
+                             k['article'] + "\t" + k['detailurl'] + "\n"
             else:
                 result = respond['text'].replace('<br>', '  ')
                 result = result.replace(u'\xa0', u' ')
@@ -69,7 +69,7 @@ class TulingWXBot(WXBot):
             self.auto_switch(msg)
         elif msg['msg_type_id'] == 4 and msg['content']['type'] == 0:  # text message from contact
             self.send_msg_by_uid(self.tuling_auto_reply(msg['user']['id'], msg['content']['data']), msg['user']['id'])
-        elif msg['msg_type_id'] == 3 and msg['content']['type'] == 0:  # group text message
+        elif msg['msg_type_id'] == 99 and msg['content']['type'] == 0:  # group text message
             if 'detail' in msg['content']:
                 my_names = self.get_group_member_name(msg['user']['id'], self.my_account['UserName'])
                 if my_names is None:
@@ -95,15 +95,44 @@ class TulingWXBot(WXBot):
                         reply += u"对不起，只认字，其他杂七杂八的我都不认识，,,Ծ‸Ծ,,"
                     self.send_msg_by_uid(reply, msg['user']['id'])
 
+    def schedule(self):
+        # 获取今天时间的年月日
+        now_time = datetime.datetime.now()
+        now_year = now_time.date().year
+        now_month = now_time.date().month
+        now_day = now_time.date().day
+        # print now_time, now_year, now_month, now_day
+
+        # 获取明天时间的年月日
+        next_time = now_time + datetime.timedelta(days=+1)
+        next_year = next_time.date().year
+        next_month = next_time.date().month
+        next_day = next_time.date().day
+        # print next_time, next_year, next_month, next_day
+
+        # 获取明天的早上7:59和今天的的23:59
+        next_morning = datetime.datetime.strptime(
+            str(next_year) + "-" + str(next_month) + "-" + str(next_day) + " 07:59:00",
+            "%Y-%m-%d %H:%M:%S")
+        now_night = datetime.datetime.strptime(str(now_year) + "-" + str(now_month) + "-" + str(now_day) + " 23:59:00",
+                                               "%Y-%m-%d %H:%M:%S")
+
+        # print next_morning
+        # print now_night
+
+        time_intervel2 = (now_night - now_time).total_seconds()
+        time.sleep(time_intervel2)
+        self.send_msg(u'胡老板', u'晚安~')
+        time_intervel1 = (next_morning - now_time).total_seconds()
+        time.sleep(time_intervel1)
+        self.send_msg(u'胡老板', u'早安~')
 
 def main():
     bot = TulingWXBot()
     bot.DEBUG = True
-    bot.conf['qr'] = 'png'
-
+    bot.conf['qr'] = 'tty'
     bot.run()
 
 
 if __name__ == '__main__':
     main()
-
