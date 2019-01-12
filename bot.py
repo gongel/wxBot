@@ -95,37 +95,26 @@ class TulingWXBot(WXBot):
                     self.send_msg_by_uid(reply, msg['user']['id'])
 
     def schedule(self):
-        # 获取今天时间的年月日
         now_time = datetime.datetime.now()
         now_year = now_time.date().year
         now_month = now_time.date().month
         now_day = now_time.date().day
-        # print now_time, now_year, now_month, now_day
 
-        # 获取明天时间的年月日
-        next_time = now_time + datetime.timedelta(days=+1)
-        next_year = next_time.date().year
-        next_month = next_time.date().month
-        next_day = next_time.date().day
-        # print next_time, next_year, next_month, next_day
-
-        # 获取明天的早上7:59和今天的的23:59
         next_morning = datetime.datetime.strptime(
-            str(next_year) + "-" + str(next_month) + "-" + str(next_day) + " 07:59:00",
+            str(now_year) + "-" + str(now_month) + "-" + str(now_day) + " 07:59:20",
             "%Y-%m-%d %H:%M:%S")
-        now_night = datetime.datetime.strptime(str(now_year) + "-" + str(now_month) + "-" + str(now_day) + " 23:59:00",
-                                               "%Y-%m-%d %H:%M:%S")
+        next_night = datetime.datetime.strptime(str(now_year) + "-" + str(now_month) + "-" + str(now_day) + " 23:59:20",
+                                                "%Y-%m-%d %H:%M:%S")
+        now_time = datetime.datetime.strptime(datetime.datetime.strftime(now_time, "%Y-%m-%d %H:%M:%S"),
+                                              "%Y-%m-%d %H:%M:%S")
+        print now_time, next_morning, next_night
+        if 3> (next_morning - now_time).total_seconds() >= 0:
+            self.send_msg(u'胡老板', u'早安~')
 
-        # print next_morning
-        # print now_night
+        if 3> (next_night - now_time).total_seconds() >= 0:
+            self.send_msg(u'胡老板', u'晚安~')
 
-        time_intervel2 = (now_night - now_time).total_seconds()
-        time.sleep(time_intervel2)
-        self.send_msg(u'胡老板', u'晚安~')
-        time_intervel1 = (next_morning - now_time).total_seconds()
-        time.sleep(time_intervel1)
-        self.send_msg(u'胡老板', u'早安~')
-
+        time.sleep(2)
 def main():
     bot = TulingWXBot()
     bot.DEBUG = True
