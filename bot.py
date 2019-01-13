@@ -4,7 +4,6 @@ import ConfigParser
 import json
 import datetime,time
 
-
 class TulingWXBot(WXBot):
     def __init__(self):
         WXBot.__init__(self)
